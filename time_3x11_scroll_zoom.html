@@ -71,9 +71,6 @@
 </div>
 
 <script>
-// ------------------------------------------------------
-// Zoom
-// ------------------------------------------------------
 let zoom = 1;
 
 function applyZoom(){
@@ -95,9 +92,6 @@ document.getElementById("zoomReset").onclick = () => {
   applyZoom();
 };
 
-// ------------------------------------------------------
-// Grid Renderer
-// ------------------------------------------------------
 function render3x11(mask){
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
@@ -111,8 +105,7 @@ function render3x11(mask){
       const hit = mask.find(s => s.pos[0] === r && s.pos[1] === c);
 
       if(hit){
-        if(hit.refs) cell.textContent = hit.refs.join(", ");
-        else cell.textContent = hit.ref || "";
+        cell.textContent = hit.refs.join(", ");
       }
 
       grid.appendChild(cell);
@@ -120,9 +113,6 @@ function render3x11(mask){
   }
 }
 
-// ------------------------------------------------------
-// Beispielmaske
-// ------------------------------------------------------
 const timeExample = [
   { pos:[1,4], refs:["M-001"] },
   { pos:[2,5], refs:["M-017","M-023"], phase:[0.2,0.7] },
@@ -132,15 +122,12 @@ const timeExample = [
 
 const mask3x11 = timeExample.map(s => ({
   pos: s.pos,
-  refs: s.refs || (s.ref ? [s.ref] : ["?"]),
+  refs: s.refs || ["?"],
   phase: s.phase || null
 }));
 
 render3x11(mask3x11);
 
-// ------------------------------------------------------
-// Movement Engine (Auto-Move + Wrap-Around)
-// ------------------------------------------------------
 let active = { r: 1, c: 1 };
 
 function highlightActive(){
@@ -163,9 +150,6 @@ function move(dir){
 
 highlightActive();
 
-// ------------------------------------------------------
-// Keyboard Movement
-// ------------------------------------------------------
 document.addEventListener("keydown", e => {
   if(e.key === "ArrowLeft")  move("left");
   if(e.key === "ArrowRight") move("right");
@@ -173,9 +157,7 @@ document.addEventListener("keydown", e => {
   if(e.key === "ArrowDown")  move("down");
 });
 
-// ------------------------------------------------------
-// Touch Swipe Movement
-// ------------------------------------------------------
+const grid = document.getElementById("grid");
 let startX = 0, startY = 0;
 
 grid.addEventListener("touchstart", e => {
